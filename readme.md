@@ -93,6 +93,7 @@
 
   - In views/index.pug, add the line `div The sum is #{sum}` after the line `p Welcome to #{title}`
   - Run the command `npm start` and open the browser to localhost:3000, the sum will be printed out on the screen
+  - Run `npm install --save-dev jest`
   - In routes/components, create a file called myComponent.test.js and paste in this code
 
             var myComponent = require('./myComponent');
@@ -103,3 +104,33 @@
 
   - In package.json, add a script called "test" with the command "jest"
   - Run `npm run test`
+  - Run `npm install --save-dev webpack webpack-cli`
+  - In public/javascripts create a file called message.js and paste in this code
+
+            export default function getMessage(name) {
+                return 'Hello ' + name;
+            }
+
+  - In public/javascripts create a file called index.js and paste in this code
+
+            import getMessage from './message';
+
+            const message = getMessage('person');
+            console.log(message);
+
+  - In the root of the jest-testing directory, create a file called webpack.config.js and paste in this code
+
+            const path = require('path');
+
+            module.exports = {
+            entry: './public/javascripts/index.js',
+            output: {
+                path: path.resolve(__dirname, 'public/dist'),
+                filename: 'index.bundle.js'
+            }
+            };
+
+  - In views/index.pug, add the line `script(src='/dist/index.bundle.js')` after the line `div The sum is #{sum}`
+  - In package.json, add a script with the name "build" and the command "webpack"
+  - Run `npm run build`
+  - Run `npm start` and open the browser to localhost:3000 and open the console to see the message
