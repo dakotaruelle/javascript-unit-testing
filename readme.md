@@ -93,3 +93,13 @@
 
   - In views/index.pug, add the line `div The sum is #{sum}` after the line `p Welcome to #{title}`
   - Run the command `npm start` and open the browser to localhost:3000, the sum will be printed out on the screen
+  - In routes/components, create a file called myComponent.test.js and paste in this code
+
+            var myComponent = require('./myComponent');
+
+            test('adds 1 + 2 to equal 3', () => {
+                expect(myComponent.getSum(1, 2)).toBe(3);
+            });
+
+  - In package.json, add a script called "test" with the command "jest"
+  - Run `npm run test`
