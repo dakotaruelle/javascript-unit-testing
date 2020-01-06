@@ -1,6 +1,6 @@
 - Create a folder called mocha-testing
-  - Run npm init -y
-  - Run npm i -D mocha chai
+  - Run `npm init -y`
+  - Run `npm install --save-dev mocha chai`
   - Create a file called Todos.js and paste in this code
 
         function ToDosContainer(){
@@ -65,3 +65,31 @@
   - Add this line right after the line "load your test files here"
 
         <script src="Todos.test.js"></script>
+
+  - Open TestRunner.html in a browser and the test will run
+
+- Create a folder called jest-testing
+  - Run `npm init -y`
+  - Run `npm install -g express-generator`
+  - Run `express --view=pug . --force`
+  - In the routes directory, create a new directory called components
+  - In the newly created components directory, create a file called myComponent.js
+    - Paste in this code 
+
+            var myComponent = {
+                getSum: function(x, y) {
+                    return x + y;
+                }
+            };
+
+            module.exports = myComponent;
+
+  - In routes/index.js
+    - Paste in the line `var myComponent = require('./components/myComponent');` after the line `var router = express.Router();`
+    - Replace the line `res.render('index', { title: 'Express' });`
+
+            var sum = myComponent.getSum(5, 6);
+            res.render('index', { title: 'Express', sum: sum });
+
+  - In views/index.pug, add the line `div The sum is #{sum}` after the line `p Welcome to #{title}`
+  - Run the command `npm start` and open the browser to localhost:3000, the sum will be printed out on the screen
