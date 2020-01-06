@@ -134,3 +134,29 @@
   - In package.json, add a script with the name "build" and the command "webpack"
   - Run `npm run build`
   - Run `npm start` and open the browser to localhost:3000 and open the console to see the message
+  - In public/javascripts create a file called message.test.js and paste in this code
+
+            import getMessage from './message';
+
+            test('gives correct name', () => {
+                expect(getMessage('person')).toBe('Hello person');
+            });
+
+  - Run `npm run test`, there will be an error message about import statements
+  - Run `npm install --save-dev @babel/core @babel/preset-env babel-jest`
+  - Create a file in the root of jest-testing called babel.config.js and paste in this code
+
+            module.exports = {
+                presets: [
+                    [
+                        '@babel/preset-env',
+                        {
+                        targets: {
+                            node: 'current',
+                        },
+                        },
+                    ],
+                ],
+            };
+
+  - Run `npm run test` again and now it will work
