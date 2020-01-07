@@ -160,3 +160,83 @@
             };
 
   - Run `npm run test` again and now it will work
+  - In public/javascripts/index.js
+    - Add this line `import getUserId from './getUserId';` to the top of the file
+    - Add these lines to the bottom of the file
+
+            getUserId().then(id => {
+                console.log('user id: ', id);
+            });
+
+  - In public/javascripts, create a file called getUserId.js and paste in this code
+
+            export default function getUserId() {
+                return new Promise(resolve => {
+                    // Get response object
+                    var userId = response.id;
+                    resolve(userId);
+                });
+            }
+
+  - In getUserId.js
+    - Add this line to the top of the file `import makeNetworkRequest from './makeNetworkRequest';`
+    - Replace the lines
+
+            // Get response object
+            var userId = response.id;
+            resolve(userId);
+
+        with
+
+            makeNetworkRequest()
+                .then(response => {
+                        var userId = response.id;
+                        resolve(userId);
+                    }
+                );
+
+  - In public/javascripts create a file called makeNetworkRequest.js and paste in this code
+
+            export default function makeNetworkRequest() {
+                return new Promise(resolve => {
+                    axios.get('https://jsonplaceholder.typicode.com/todos/1')
+                        .then(response => {
+                            resolve(response.data);
+                        }
+                    );
+                });
+            }
+
+  - In view/index.pug add this line `script(src='https://unpkg.com/axios/dist/axios.min.js')` before this line `script(src='/dist/index.bundle.js')`
+
+  - Run `npm run build`
+  - Run npm start and open a browser to localhost:3000
+  - In public/javascripts create a file called getUserId.test.js and paste in this code
+
+            jest.mock('./makeNetworkRequest');
+
+            import getUserId from './getUserId';
+
+            test('gets async data', () => {
+                return getUserId().then(id => {
+                    expect(id).toEqual(1);
+                });
+            });
+
+  - In public/javascripts create a folder called __mocks__
+    - In the __mocks__ folder create a file called makeNetworkRequest.js and paste in this code
+
+            const data = {
+                completed: false,
+                id: 1
+            };
+
+            export default function getData() {
+                return new Promise((resolve) => {
+                    process.nextTick(() =>
+                        resolve(data)
+                    );
+                });
+            }
+
+  - Run `npm run test`
