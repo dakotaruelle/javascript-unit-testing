@@ -240,3 +240,55 @@
             }
 
   - Run `npm run test`
+  - In public/javascripts/index.js
+    - Add this line `import setupButtonEventListener from './setupButtonEventListener';` to the top of the file
+    - Add this line `setupButtonEventListener();` to the bottom of the file
+  - In public/javascripts add a file called setupButtonEventListener.js and paste in this code
+
+            import alterDOM from "./alterDOM"
+
+            export default function setupButtonEventListener() {
+                document.getElementById('button').addEventListener('click', function () {
+                    alterDOM();
+                });
+            }
+
+  - In public/javascripts add a file called alterDOM.js and paste in this code
+
+            export default function alterDOM() {
+                document.getElementById('message').textContent = "I've been put here by JS!";
+            }
+
+  - In views/index.pug add these lines
+
+        button(id='button') Click me
+        div(id='message')
+
+    after this line `div The sum is #{sum}`
+
+  - Run `npm run build`
+  - Run `npm start`, open a browser to localhost:3000, and click the button
+  - In public/javascripts create a file called setupButtonEventListener.test.js
+    - Paste in this code
+
+            import setupButtonEventListener from './setupButtonEventListener';
+
+            test('displays a message after a click', () => {
+                // test code here
+            });
+
+    - Replace `//test code here` with these lines
+
+            document.body.innerHTML =
+            '<button id="button" />' +
+            '<div id="message" />';
+
+    - Beneath the previous lines add this line `setupButtonEventListener();`
+    - Then add this line `document.getElementById('button').click();`
+    - Lastly, add these lines
+
+            const messageNode = document.getElementById('message');
+            expect(messageNode.textContent).toEqual("I've been put here by JS!");
+
+    - Run `npm run test`
+
